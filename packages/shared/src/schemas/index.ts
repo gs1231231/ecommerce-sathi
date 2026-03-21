@@ -58,3 +58,9 @@ export const envSchema = z.object({
 export type EnvConfig = z.infer<typeof envSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+
+// Product schemas
+export * from "./product.js";
+
+// Order schemas
+export * from "./order.js";

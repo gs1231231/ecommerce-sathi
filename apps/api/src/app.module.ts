@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { LoggerModule } from "nestjs-pino";
 import { CorrelationIdMiddleware } from "./common/middleware/correlation-id.middleware";
 import { HealthController } from "./common/health.controller";
+import { DatabaseModule } from "./modules/database/database.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { TenantModule } from "./modules/tenant/tenant.module";
 import { ProductModule } from "./modules/product/product.module";
@@ -10,7 +11,6 @@ import { OrderModule } from "./modules/order/order.module";
 import { PaymentModule } from "./modules/payment/payment.module";
 import { ShippingModule } from "./modules/shipping/shipping.module";
 import { StorefrontModule } from "./modules/storefront/storefront.module";
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -25,6 +25,7 @@ import { StorefrontModule } from "./modules/storefront/storefront.module";
         }),
       },
     }),
+    DatabaseModule,
     AuthModule,
     TenantModule,
     ProductModule,
