@@ -1,0 +1,23 @@
+{
+  "name": "ecommerce-sathi",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "db:migrate": "turbo db:migrate --filter=@ecommerce-sathi/db",
+    "db:seed": "turbo db:seed --filter=@ecommerce-sathi/db",
+    "db:generate": "turbo db:generate --filter=@ecommerce-sathi/db",
+    "db:studio": "turbo db:studio --filter=@ecommerce-sathi/db",
+    "clean": "turbo clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

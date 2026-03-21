@@ -1,0 +1,13 @@
+{
+  "name": "@ecommerce-sathi/config",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    "./tsconfig/base": "./tsconfig/base.json",
+    "./tsconfig/nestjs": "./tsconfig/nestjs.json",
+    "./tsconfig/nextjs": "./tsconfig/nextjs.json",
+    "./tsconfig/react-library": "./tsconfig/react-library.json",
+    "./eslint": "./eslint/index.js",
+    "./tailwind": "./tailwind/index.js"
+  }
+}
