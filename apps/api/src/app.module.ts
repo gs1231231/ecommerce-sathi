@@ -11,6 +11,8 @@ import { OrderModule } from "./modules/order/order.module";
 import { PaymentModule } from "./modules/payment/payment.module";
 import { ShippingModule } from "./modules/shipping/shipping.module";
 import { StorefrontModule } from "./modules/storefront/storefront.module";
+import { GstModule } from "./modules/gst/gst.module";
+import { CodModule } from "./modules/cod/cod.module";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -33,6 +35,8 @@ import { StorefrontModule } from "./modules/storefront/storefront.module";
     PaymentModule,
     ShippingModule,
     StorefrontModule,
+    GstModule,
+    CodModule,
   ],
   controllers: [HealthController],
 })
