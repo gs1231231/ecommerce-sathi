@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { ProductService } from "./product.service";
+import { ProductImportService } from "./product-import.service";
 import { CurrentUser, JwtPayload } from "../../common/decorators/current-user.decorator";
 import { CurrentTenant } from "../../common/decorators/current-tenant.decorator";
 
@@ -19,7 +20,41 @@ import { CurrentTenant } from "../../common/decorators/current-tenant.decorator"
 @ApiBearerAuth()
 @Controller("products")
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly importService: ProductImportService,
+  ) {}
+
+  @Post("import")
+  @ApiOperation({ summary: "Import products from CSV" })
+  async importCsv(
+    @CurrentTenant() tenantId: string,
+    @CurrentUser() user: JwtPayload,
+    @Body() body: { csvContent: string },
+  ): Promise<{ success: boolean; data: unknown }> {
+    const result = await this.importService.importCsv(tenantId, user.userId, body.csvContent);
+    return { success: true, data: result };
+  }
+
+  @Get("export")
+  @ApiOperation({ summary: "Export products as CSV" })
+  async exportCsv(
+    @CurrentTenant() tenantId: string,
+  ): Promise<{ success: boolean; data: { csv: string } }> {
+    const csv = await this.importService.exportCsv(tenantId);
+    return { success: true, data: { csv } };
+  }
+
+  @Post(":id/duplicate")
+  @ApiOperation({ summary: "Duplicate a product" })
+  async duplicate(
+    @CurrentTenant() tenantId: string,
+    @CurrentUser() user: JwtPayload,
+    @Param("id") id: string,
+  ): Promise<{ success: boolean; data: unknown }> {
+    const result = await this.importService.duplicateProduct(tenantId, user.userId, id);
+    return { success: true, data: result };
+  }
 
   @Post()
   @ApiOperation({ summary: "Create a new product with variants" })

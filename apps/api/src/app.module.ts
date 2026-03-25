@@ -13,6 +13,8 @@ import { ShippingModule } from "./modules/shipping/shipping.module";
 import { StorefrontModule } from "./modules/storefront/storefront.module";
 import { GstModule } from "./modules/gst/gst.module";
 import { CodModule } from "./modules/cod/cod.module";
+import { WhatsAppModule } from "./modules/whatsapp/whatsapp.module";
+import { AiBuilderModule } from "./modules/ai-builder/ai-builder.module";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -37,6 +39,8 @@ import { CodModule } from "./modules/cod/cod.module";
     StorefrontModule,
     GstModule,
     CodModule,
+    WhatsAppModule,
+    AiBuilderModule,
   ],
   controllers: [HealthController],
 })
