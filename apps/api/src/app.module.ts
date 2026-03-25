@@ -15,6 +15,13 @@ import { GstModule } from "./modules/gst/gst.module";
 import { CodModule } from "./modules/cod/cod.module";
 import { WhatsAppModule } from "./modules/whatsapp/whatsapp.module";
 import { AiBuilderModule } from "./modules/ai-builder/ai-builder.module";
+import { NotificationModule } from "./modules/notification/notification.module";
+import { SeoModule } from "./modules/seo/seo.module";
+import { CustomerModule } from "./modules/customer/customer.module";
+import { DiscountModule } from "./modules/discount/discount.module";
+import { WebhookModule } from "./modules/webhook/webhook.module";
+import { AnalyticsModule } from "./modules/analytics/analytics.module";
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -41,6 +48,12 @@ import { AiBuilderModule } from "./modules/ai-builder/ai-builder.module";
     CodModule,
     WhatsAppModule,
     AiBuilderModule,
+    NotificationModule,
+    SeoModule,
+    CustomerModule,
+    DiscountModule,
+    WebhookModule,
+    AnalyticsModule,
   ],
   controllers: [HealthController],
 })

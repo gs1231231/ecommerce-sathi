@@ -24,3 +24,6 @@ export * from "./orders.js";
 export * from "./order-items.js";
 export * from "./payments.js";
 export * from "./shipments.js";
+
+// Discount tables
+export * from "./discounts.js";
