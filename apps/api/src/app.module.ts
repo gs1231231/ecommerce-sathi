@@ -25,6 +25,17 @@ import { WebhookModule } from "./modules/webhook/webhook.module";
 import { AnalyticsModule } from "./modules/analytics/analytics.module";
 import { StaffModule } from "./modules/staff/staff.module";
 import { DomainModule } from "./modules/domain/domain.module";
+import { CurrencyModule } from "./modules/currency/currency.module";
+import { SecurityModule } from "./modules/security/security.module";
+import { I18nModule } from "./modules/i18n/i18n.module";
+import { SubscriptionModule } from "./modules/subscription/subscription.module";
+import { DigitalProductModule } from "./modules/digital-product/digital-product.module";
+import { RecommendationModule } from "./modules/recommendation/recommendation.module";
+import { PricingModule } from "./modules/pricing/pricing.module";
+import { MigrationModule } from "./modules/migration/migration.module";
+import { MarketplaceModule } from "./modules/marketplace/marketplace.module";
+import { B2bModule } from "./modules/b2b/b2b.module";
+import { PosModule } from "./modules/pos/pos.module";
 
 @Module({
   imports: [
@@ -61,6 +72,17 @@ import { DomainModule } from "./modules/domain/domain.module";
     AnalyticsModule,
     StaffModule,
     DomainModule,
+    CurrencyModule,
+    SecurityModule,
+    I18nModule,
+    SubscriptionModule,
+    DigitalProductModule,
+    RecommendationModule,
+    PricingModule,
+    MigrationModule,
+    MarketplaceModule,
+    B2bModule,
+    PosModule,
   ],
   controllers: [HealthController],
 })
