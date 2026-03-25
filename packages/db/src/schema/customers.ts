@@ -11,9 +11,9 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
-import { tenants } from "./tenants.js";
-import { orders } from "./orders.js";
+import { tenantColumns } from "./base";
+import { tenants } from "./tenants";
+import { orders } from "./orders";
 
 export const customers = pgTable(
   "customers",

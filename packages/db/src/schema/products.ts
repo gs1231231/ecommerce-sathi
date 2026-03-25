@@ -8,13 +8,13 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
-import { productStatusEnum, productTypeEnum } from "./enums.js";
-import { tenants } from "./tenants.js";
-import { users } from "./users.js";
-import { productVariants } from "./product-variants.js";
-import { productImages } from "./product-images.js";
-import { productCategories } from "./product-categories.js";
+import { tenantColumns } from "./base";
+import { productStatusEnum, productTypeEnum } from "./enums";
+import { tenants } from "./tenants";
+import { users } from "./users";
+import { productVariants } from "./product-variants";
+import { productImages } from "./product-images";
+import { productCategories } from "./product-categories";
 
 export const products = pgTable(
   "products",

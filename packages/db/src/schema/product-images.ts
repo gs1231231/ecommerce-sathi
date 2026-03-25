@@ -9,9 +9,9 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { uuidv7 } from "uuidv7";
-import { products } from "./products.js";
-import { productVariants } from "./product-variants.js";
-import { tenants } from "./tenants.js";
+import { products } from "./products";
+import { productVariants } from "./product-variants";
+import { tenants } from "./tenants";
 
 export const productImages = pgTable(
   "product_images",

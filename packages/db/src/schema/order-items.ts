@@ -11,10 +11,10 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { uuidv7 } from "uuidv7";
-import { orders } from "./orders.js";
-import { products } from "./products.js";
-import { productVariants } from "./product-variants.js";
-import { tenants } from "./tenants.js";
+import { orders } from "./orders";
+import { products } from "./products";
+import { productVariants } from "./product-variants";
+import { tenants } from "./tenants";
 
 export const orderItems = pgTable(
   "order_items",

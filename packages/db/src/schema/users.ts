@@ -8,10 +8,10 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
-import { userRoleEnum, authProviderEnum } from "./enums.js";
-import { tenants } from "./tenants.js";
-import { sessions } from "./sessions.js";
+import { tenantColumns } from "./base";
+import { userRoleEnum, authProviderEnum } from "./enums";
+import { tenants } from "./tenants";
+import { sessions } from "./sessions";
 
 export const users = pgTable(
   "users",

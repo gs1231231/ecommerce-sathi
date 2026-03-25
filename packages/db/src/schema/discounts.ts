@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar, text, decimal, integer, boolean, timestamp, jsonb, index } from "drizzle-orm/pg-core";
 import { pgEnum } from "drizzle-orm/pg-core";
-import { tenantColumns } from "./base.js";
+import { tenantColumns } from "./base";
 
 export const discountTypeEnum = pgEnum("discount_type", ["percentage", "fixed_amount", "buy_x_get_y", "free_shipping"]);
 

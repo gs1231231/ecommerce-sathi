@@ -1,29 +1,29 @@
 // Enums
-export * from "./enums.js";
+export * from "./enums";
 
 // Base
-export * from "./base.js";
+export * from "./base";
 
 // Core tables
-export * from "./tenants.js";
-export * from "./users.js";
-export * from "./sessions.js";
+export * from "./tenants";
+export * from "./users";
+export * from "./sessions";
 
 // Product tables
-export * from "./categories.js";
-export * from "./products.js";
-export * from "./product-variants.js";
-export * from "./product-images.js";
-export * from "./product-categories.js";
+export * from "./categories";
+export * from "./products";
+export * from "./product-variants";
+export * from "./product-images";
+export * from "./product-categories";
 
 // Customer tables
-export * from "./customers.js";
+export * from "./customers";
 
 // Order tables
-export * from "./orders.js";
-export * from "./order-items.js";
-export * from "./payments.js";
-export * from "./shipments.js";
+export * from "./orders";
+export * from "./order-items";
+export * from "./payments";
+export * from "./shipments";
 
 // Discount tables
-export * from "./discounts.js";
+export * from "./discounts";

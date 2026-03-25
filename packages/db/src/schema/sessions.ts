@@ -8,8 +8,8 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { uuidv7 } from "uuidv7";
-import { users } from "./users.js";
-import { tenants } from "./tenants.js";
+import { users } from "./users";
+import { tenants } from "./tenants";
 
 export const sessions = pgTable(
   "sessions",

@@ -400,6 +400,7 @@ export class OrderService {
   ): Promise<Record<string, unknown>> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const todayIso = today.toISOString();
 
     const [todayStats] = await this.db
       .select({
@@ -410,7 +411,7 @@ export class OrderService {
       .where(
         and(
           eq(orders.tenantId, tenantId),
-          sql`${orders.createdAt} >= ${today}`,
+          sql`${orders.createdAt} >= ${todayIso}::timestamptz`,
         ),
       );
 

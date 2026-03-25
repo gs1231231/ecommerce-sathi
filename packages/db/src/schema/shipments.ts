@@ -10,10 +10,10 @@ import {
   index,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
-import { courierEnum, shipmentStatusEnum } from "./enums.js";
-import { orders } from "./orders.js";
-import { tenants } from "./tenants.js";
+import { tenantColumns } from "./base";
+import { courierEnum, shipmentStatusEnum } from "./enums";
+import { orders } from "./orders";
+import { tenants } from "./tenants";
 
 export const shipments = pgTable(
   "shipments",

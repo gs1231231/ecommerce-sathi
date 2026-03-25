@@ -9,9 +9,9 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { baseColumns } from "./base.js";
-import { tenantPlanEnum, tenantStatusEnum } from "./enums.js";
-import { users } from "./users.js";
+import { baseColumns } from "./base";
+import { tenantPlanEnum, tenantStatusEnum } from "./enums";
+import { users } from "./users";
 
 export const tenants = pgTable(
   "tenants",

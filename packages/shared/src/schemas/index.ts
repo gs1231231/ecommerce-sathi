@@ -60,7 +60,7 @@ export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 
 // Product schemas
-export * from "./product.js";
+export * from "./product";
 
 // Order schemas
-export * from "./order.js";
+export * from "./order";

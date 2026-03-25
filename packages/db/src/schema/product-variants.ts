@@ -10,10 +10,10 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
-import { weightUnitEnum } from "./enums.js";
-import { tenants } from "./tenants.js";
-import { products } from "./products.js";
+import { tenantColumns } from "./base";
+import { weightUnitEnum } from "./enums";
+import { tenants } from "./tenants";
+import { products } from "./products";
 
 export const productVariants = pgTable(
   "product_variants",

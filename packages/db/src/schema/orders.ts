@@ -12,18 +12,18 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
+import { tenantColumns } from "./base";
 import {
   orderStatusEnum,
   paymentStatusEnum,
   fulfillmentStatusEnum,
   orderSourceEnum,
-} from "./enums.js";
-import { tenants } from "./tenants.js";
-import { customers } from "./customers.js";
-import { orderItems } from "./order-items.js";
-import { payments } from "./payments.js";
-import { shipments } from "./shipments.js";
+} from "./enums";
+import { tenants } from "./tenants";
+import { customers } from "./customers";
+import { orderItems } from "./order-items";
+import { payments } from "./payments";
+import { shipments } from "./shipments";
 
 export const orders = pgTable(
   "orders",

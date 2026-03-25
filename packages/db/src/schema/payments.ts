@@ -8,10 +8,10 @@ import {
   index,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { tenantColumns } from "./base.js";
-import { paymentGatewayEnum, paymentMethodEnum, paymentStatusEnum } from "./enums.js";
-import { orders } from "./orders.js";
-import { tenants } from "./tenants.js";
+import { tenantColumns } from "./base";
+import { paymentGatewayEnum, paymentMethodEnum, paymentStatusEnum } from "./enums";
+import { orders } from "./orders";
+import { tenants } from "./tenants";
 
 export const payments = pgTable(
   "payments",

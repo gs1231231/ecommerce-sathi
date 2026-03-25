@@ -1,8 +1,8 @@
 import { pgTable, uuid, integer, primaryKey } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { products } from "./products.js";
-import { categories } from "./categories.js";
-import { tenants } from "./tenants.js";
+import { products } from "./products";
+import { categories } from "./categories";
+import { tenants } from "./tenants";
 
 export const productCategories = pgTable(
   "product_categories",
