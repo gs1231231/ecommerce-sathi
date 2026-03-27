@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CommandPalette } from '@/components/command-palette';
 
 const navItems = [
   { href: '/', label: 'Home', icon: '🏠' },
@@ -29,7 +30,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }): React.ReactElement {
   const [collapsed, setCollapsed] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent): void {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCmdOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -48,8 +61,23 @@ export default function DashboardLayout({
           </button>
           <span className="text-lg font-semibold text-gray-900">eCommerce Sathi</span>
         </div>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-medium text-white">
-          M
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setCmdOpen(true)}
+            className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
+            aria-label="Search"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span className="hidden sm:inline">Search...</span>
+            <kbd className="hidden sm:inline-flex items-center rounded border border-gray-200 px-1 py-0.5 text-[10px] font-medium text-gray-400">
+              K
+            </kbd>
+          </button>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-medium text-white">
+            M
+          </div>
         </div>
       </header>
 
@@ -115,6 +143,9 @@ export default function DashboardLayout({
           );
         })}
       </nav>
+
+      {/* Command Palette */}
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
     </div>
   );
 }

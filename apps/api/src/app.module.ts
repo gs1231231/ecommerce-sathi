@@ -36,6 +36,8 @@ import { MigrationModule } from "./modules/migration/migration.module";
 import { MarketplaceModule } from "./modules/marketplace/marketplace.module";
 import { B2bModule } from "./modules/b2b/b2b.module";
 import { PosModule } from "./modules/pos/pos.module";
+import { UploadModule } from "./modules/upload/upload.module";
+import { EventsModule } from "./modules/events/events.module";
 
 @Module({
   imports: [
@@ -83,6 +85,8 @@ import { PosModule } from "./modules/pos/pos.module";
     MarketplaceModule,
     B2bModule,
     PosModule,
+    UploadModule,
+    EventsModule,
   ],
   controllers: [HealthController],
 })

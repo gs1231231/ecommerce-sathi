@@ -1,10 +1,17 @@
 import { NestFactory } from "@nestjs/core";
+import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { Logger } from "nestjs-pino";
+import { join } from "path";
 import { AppModule } from "./app.module";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bufferLogs: true,
+  });
+
+  // Serve uploaded files
+  app.useStaticAssets(join(process.cwd(), "uploads"), { prefix: "/uploads/" });
 
   // Use Pino logger
   app.useLogger(app.get(Logger));
