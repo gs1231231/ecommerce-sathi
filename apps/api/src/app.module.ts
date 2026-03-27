@@ -38,6 +38,7 @@ import { B2bModule } from "./modules/b2b/b2b.module";
 import { PosModule } from "./modules/pos/pos.module";
 import { UploadModule } from "./modules/upload/upload.module";
 import { EventsModule } from "./modules/events/events.module";
+import { AdsModule } from "./modules/ads/ads.module";
 
 @Module({
   imports: [
@@ -87,6 +88,7 @@ import { EventsModule } from "./modules/events/events.module";
     PosModule,
     UploadModule,
     EventsModule,
+    AdsModule,
   ],
   controllers: [HealthController],
 })
