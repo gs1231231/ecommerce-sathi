@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { eq, and, sql, gte } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { PinoLogger } from "nestjs-pino";
 import { orders, orderItems, customers, products } from "@ecommerce-sathi/db";
 import { DATABASE_TOKEN, DatabaseInstance } from "../database/database.module";
@@ -45,14 +45,14 @@ export class AnalyticsService {
       .where(
         and(
           eq(orders.tenantId, tenantId),
-          gte(orders.createdAt, startDate),
+          sql`${orders.createdAt} >= ${startDate.toISOString()}::timestamptz`,
         ),
       );
 
     const [customerStats] = await this.db
       .select({
         totalCustomers: sql<number>`count(*)::int`,
-        newCustomers: sql<number>`count(*) FILTER (WHERE ${customers.createdAt} >= ${startDate})::int`,
+        newCustomers: sql<number>`count(*) FILTER (WHERE ${customers.createdAt} >= ${startDate.toISOString()}::timestamptz)::int`,
       })
       .from(customers)
       .where(eq(customers.tenantId, tenantId));
@@ -125,7 +125,7 @@ export class AnalyticsService {
       .where(
         and(
           eq(orders.tenantId, tenantId),
-          gte(orders.createdAt, startDate),
+          sql`${orders.createdAt} >= ${startDate.toISOString()}::timestamptz`,
         ),
       )
       .groupBy(sql`DATE(${orders.createdAt})`)

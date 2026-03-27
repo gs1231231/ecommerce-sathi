@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://65.1.110.181/api";
 
 interface Customer {
   id: string;
@@ -14,7 +16,7 @@ interface Customer {
   segment: string;
 }
 
-const customers: Customer[] = [
+const mockCustomers: Customer[] = [
   { id: '1', name: 'Rahul Sharma', email: 'rahul@example.com', phone: '+91 98765 43210', orders: 12, totalSpent: '₹28,450', tags: ['VIP', 'Repeat'], lastOrder: '25 Mar 2026', segment: 'VIP' },
   { id: '2', name: 'Priya Patel', email: 'priya@example.com', phone: '+91 87654 32109', orders: 1, totalSpent: '₹1,899', tags: ['New'], lastOrder: '24 Mar 2026', segment: 'New' },
   { id: '3', name: 'Amit Kumar', email: 'amit@example.com', phone: '+91 76543 21098', orders: 5, totalSpent: '₹9,750', tags: ['Returning'], lastOrder: '22 Mar 2026', segment: 'Returning' },
@@ -42,6 +44,23 @@ export default function CustomersPage(): React.ReactElement {
   const [search, setSearch] = useState('');
   const [activeSegment, setActiveSegment] = useState('All');
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [customers, setCustomers] = useState(mockCustomers);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+
+    fetch(`${API_URL}/customers?page=1&limit=20`, { headers })
+      .then((r) => r.ok ? r.json() : null)
+      .then((res) => {
+        if (res?.data) setCustomers(res.data);
+      })
+      .catch(() => {
+        // keep mock data on error
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered = customers.filter((c) => {
     const matchesSearch =
@@ -51,6 +70,15 @@ export default function CustomersPage(): React.ReactElement {
     const matchesSegment = activeSegment === 'All' || c.segment === activeSegment;
     return matchesSearch && matchesSegment;
   });
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-8">
+        <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
+        <p className="mt-4 text-sm text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-8">

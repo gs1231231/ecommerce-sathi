@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const orders = [
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://65.1.110.181/api";
+
+const mockOrders = [
   { id: '#ES-1030', date: '21 Mar 2026', customer: 'Rahul Sharma', total: '₹2,499', payment: 'Paid', fulfillment: 'Delivered' },
   { id: '#ES-1029', date: '21 Mar 2026', customer: 'Priya Patel', total: '₹1,899', payment: 'Paid', fulfillment: 'Processing' },
   { id: '#ES-1028', date: '20 Mar 2026', customer: 'Amit Kumar', total: '₹3,150', payment: 'Paid', fulfillment: 'Shipped' },
@@ -39,6 +41,23 @@ export default function OrdersPage(): React.ReactElement {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [paymentFilter, setPaymentFilter] = useState('All');
+  const [orders, setOrders] = useState(mockOrders);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+
+    fetch(`${API_URL}/orders?page=1&limit=20`, { headers })
+      .then((r) => r.ok ? r.json() : null)
+      .then((res) => {
+        if (res?.data) setOrders(res.data);
+      })
+      .catch(() => {
+        // keep mock data on error
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered = orders.filter((o) => {
     const matchesSearch =
@@ -48,6 +67,15 @@ export default function OrdersPage(): React.ReactElement {
     const matchesPayment = paymentFilter === 'All' || o.payment === paymentFilter;
     return matchesSearch && matchesStatus && matchesPayment;
   });
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-8">
+        <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+        <p className="mt-4 text-sm text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-8">

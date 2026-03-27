@@ -58,10 +58,9 @@ export class I18nController {
   @Public()
   @ApiOperation({ summary: "Get UI translations for a locale" })
   getTranslations(
-    @CurrentTenant() tenantId: string,
     @Param("locale") locale: string,
   ): { success: boolean; data: unknown } {
-    const result = this.i18nService.getTranslations(tenantId, locale);
+    const result = this.i18nService.getTranslations("public", locale);
     return { success: true, data: result };
   }
 }

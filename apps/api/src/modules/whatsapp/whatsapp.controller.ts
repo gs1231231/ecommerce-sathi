@@ -6,7 +6,9 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  Res,
 } from "@nestjs/common";
+import { Response } from "express";
 import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { WhatsAppService } from "./whatsapp.service";
 import { Public } from "../../common/decorators/public.decorator";
@@ -58,7 +60,8 @@ export class WhatsAppController {
   @ApiOperation({ summary: "WhatsApp webhook challenge verification" })
   verifyWebhook(
     @Query() query: WebhookQueryParams,
-  ): string {
+    @Res() res: Response,
+  ): void {
     const mode = query["hub.mode"];
     const challenge = query["hub.challenge"];
     const verifyToken = query["hub.verify_token"];
@@ -67,10 +70,11 @@ export class WhatsAppController {
     const expectedToken = "ecommerce_sathi_whatsapp_verify";
 
     if (mode === "subscribe" && verifyToken === expectedToken) {
-      return challenge ?? "";
+      res.set("Content-Type", "text/plain").status(200).send(challenge ?? "");
+      return;
     }
 
-    return "";
+    res.set("Content-Type", "text/plain").status(403).send("");
   }
 
   @Post("webhook")

@@ -1,13 +1,17 @@
 'use client';
 
-const stats = [
+import { useState, useEffect } from 'react';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://65.1.110.181/api";
+
+const mockStats = [
   { label: 'Revenue Today', value: '₹12,450', change: '+12%', up: true },
   { label: 'Orders Today', value: '8', change: '+3', up: true },
   { label: 'Visitors', value: '234', change: '-5%', up: false },
   { label: 'Conversion Rate', value: '3.4%', change: '+0.2%', up: true },
 ];
 
-const recentOrders = [
+const mockRecentOrders = [
   { id: '#ES-1024', customer: 'Rahul Sharma', total: '₹2,499', status: 'Delivered', date: '21 Mar 2026' },
   { id: '#ES-1023', customer: 'Priya Patel', total: '₹1,899', status: 'Processing', date: '21 Mar 2026' },
   { id: '#ES-1022', customer: 'Amit Kumar', total: '₹3,150', status: 'Shipped', date: '20 Mar 2026' },
@@ -26,6 +30,37 @@ function statusColor(status: string): string {
 }
 
 export default function DashboardPage(): React.ReactElement {
+  const [stats, setStats] = useState(mockStats);
+  const [recentOrders, setRecentOrders] = useState(mockRecentOrders);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+
+    Promise.all([
+      fetch(`${API_URL}/orders/stats`, { headers }).then((r) => r.ok ? r.json() : null),
+      fetch(`${API_URL}/orders?limit=5`, { headers }).then((r) => r.ok ? r.json() : null),
+    ])
+      .then(([statsRes, ordersRes]) => {
+        if (statsRes?.data) setStats(statsRes.data);
+        if (ordersRes?.data) setRecentOrders(ordersRes.data);
+      })
+      .catch(() => {
+        // keep mock data on error
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-8">
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p className="mt-4 text-sm text-gray-500">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 md:p-8">
       <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>

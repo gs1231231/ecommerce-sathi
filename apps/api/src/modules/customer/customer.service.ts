@@ -212,7 +212,7 @@ export class CustomerService {
       .where(
         and(
           baseConditions,
-          sql`${customers.createdAt} >= ${thirtyDaysAgo}`,
+          sql`${customers.createdAt} >= ${thirtyDaysAgo.toISOString()}::timestamptz`,
         ),
       );
 
@@ -253,7 +253,7 @@ export class CustomerService {
             SELECT DISTINCT ${orders.customerId}
             FROM ${orders}
             WHERE ${orders.tenantId} = ${tenantId}
-              AND ${orders.createdAt} >= ${ninetyDaysAgo}
+              AND ${orders.createdAt} >= ${ninetyDaysAgo.toISOString()}::timestamptz
               AND ${orders.customerId} IS NOT NULL
           )`,
         ),

@@ -19,25 +19,63 @@ interface PaymentGateway {
   refundPayment(paymentId: string, amount: number, reason: string): Promise<{ refundId: string; status: string }>;
 }
 
-// Razorpay Gateway (mock for now - ready for real integration)
+// Razorpay Gateway with real SDK integration
 class RazorpayGateway implements PaymentGateway {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private rzInstance: any = null;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private getRazorpay(): any {
+    if (!this.rzInstance) {
+      const keyId = process.env.RAZORPAY_KEY_ID;
+      const keySecret = process.env.RAZORPAY_KEY_SECRET;
+      if (keyId && keySecret && keyId !== "your-razorpay-key-id") {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const Razorpay = require("razorpay");
+        this.rzInstance = new Razorpay({ key_id: keyId, key_secret: keySecret });
+      }
+    }
+    return this.rzInstance;
+  }
+
   async createOrder(amount: number, currency: string, metadata: Record<string, unknown>): Promise<GatewayOrder> {
-    // In production: use razorpay npm package
-    return {
-      gatewayOrderId: `order_${Date.now()}`,
-      amount,
-      currency,
-      status: "created",
-    };
+    const rz = this.getRazorpay();
+    if (rz) {
+      const order = await rz.orders.create({
+        amount: Math.round(amount * 100),
+        currency,
+        receipt: String(metadata.orderNumber ?? Date.now()),
+        notes: { orderId: String(metadata.orderId ?? "") },
+      });
+      return {
+        gatewayOrderId: String(order.id),
+        amount,
+        currency,
+        status: String(order.status),
+      };
+    }
+    return { gatewayOrderId: `order_mock_${Date.now()}`, amount, currency, status: "created" };
   }
 
   async verifyPayment(gatewayOrderId: string, paymentId: string, signature: string): Promise<boolean> {
-    // In production: verify HMAC SHA256 signature
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    if (keySecret && keySecret !== "your-razorpay-key-secret") {
+      const { createHmac } = require("crypto");
+      const expected = createHmac("sha256", keySecret)
+        .update(`${gatewayOrderId}|${paymentId}`)
+        .digest("hex");
+      return expected === signature;
+    }
     return true;
   }
 
-  async refundPayment(paymentId: string, amount: number, reason: string): Promise<{ refundId: string; status: string }> {
-    return { refundId: `rfnd_${Date.now()}`, status: "processed" };
+  async refundPayment(paymentId: string, amount: number, _reason: string): Promise<{ refundId: string; status: string }> {
+    const rz = this.getRazorpay();
+    if (rz) {
+      const refund = await rz.payments.refund(paymentId, { amount: Math.round(amount * 100) });
+      return { refundId: String(refund.id), status: "processed" };
+    }
+    return { refundId: `rfnd_mock_${Date.now()}`, status: "processed" };
   }
 }
 
@@ -70,7 +108,7 @@ export class PaymentService {
     private readonly logger: PinoLogger,
   ) {
     this.logger.setContext("PaymentService");
-    this.gateways = new Map([
+    this.gateways = new Map<string, PaymentGateway>([
       ["razorpay", new RazorpayGateway()],
       ["manual", new ManualGateway()],
       ["cod", new ManualGateway()],

@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const products = [
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://65.1.110.181/api";
+
+const mockProducts = [
   { id: '1', title: 'Classic Cotton T-Shirt', price: '₹599', stock: 45, status: 'Active' },
   { id: '2', title: 'Slim Fit Denim Jeans', price: '₹1,299', stock: 22, status: 'Active' },
   { id: '3', title: 'Leather Wallet', price: '₹899', stock: 0, status: 'Out of Stock' },
@@ -26,12 +28,38 @@ export default function ProductsPage(): React.ReactElement {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [products, setProducts] = useState(mockProducts);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+
+    fetch(`${API_URL}/products?page=1&limit=20`, { headers })
+      .then((r) => r.ok ? r.json() : null)
+      .then((res) => {
+        if (res?.data) setProducts(res.data);
+      })
+      .catch(() => {
+        // keep mock data on error
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered = products.filter((p) => {
     const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
     const matchesFilter = filter === 'All' || p.status === filter;
     return matchesSearch && matchesFilter;
   });
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-8">
+        <h1 className="text-2xl font-bold text-gray-900">Products</h1>
+        <p className="mt-4 text-sm text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-8">
